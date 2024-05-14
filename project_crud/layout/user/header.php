@@ -1,7 +1,7 @@
-<?php 
-require_once dirname(__DIR__)."/../include/connection.php";
-require_once dirname(__DIR__)."/../include/helper.php";
-require_once dirname(__DIR__)."/../include/web.php";
+<?php
+require_once dirname(__DIR__) . "/../include/connection.php";
+require_once dirname(__DIR__) . "/../include/helper.php";
+require_once dirname(__DIR__) . "/../include/web.php";
 
 ?>
 
@@ -19,6 +19,8 @@ require_once dirname(__DIR__)."/../include/web.php";
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
 </head>
 
-<body>
-   
-  
+<body data-bs-theme="dark">
+
+
+    <?php require_once "nav.php";
+    ?>

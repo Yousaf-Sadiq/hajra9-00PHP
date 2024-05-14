@@ -14,4 +14,8 @@ define("domain1",SERVER.FOLDER);
 define("DASHBOARD",domain1."/dashboard.php");
 
 
+// dashboard file route 
+
+define("INSERT_FORM",domain1."/action/form_action.php");
+
 ?>
