@@ -29,6 +29,14 @@ if (isset($_POST["insert"]) && !empty($_POST["insert"])) {
         $status["error"]++;
 
         array_push($status["msg"], "EMAIL IS REQUIRED");
+
+    } else {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+
+            $status["error"]++;
+
+            array_push($status["msg"], "EMAIL FORMAT INVALID");
+        }
     }
 
 
@@ -45,8 +53,45 @@ if (isset($_POST["insert"]) && !empty($_POST["insert"])) {
     if ($status["error"] > 0) {
 
         foreach ($status["msg"] as $value) {
-            echo $value . "<br>";
+            ERROR_MSG($value);
         }
+
+
+        refresh_url(2, DASHBOARD);
+
+    } else {
+
+        $hash = password_hash($password, PASSWORD_BCRYPT);
+
+        $encrypt = base64_encode($password);
+
+        $insert = "INSERT INTO `users` ( `email`, `password`, `ptoken`)
+          VALUES ('{$email}','{$hash}','{$encrypt}')";
+
+        $exe = $conn->query($insert);
+
+
+        if ($exe) {
+
+            if ($conn->affected_rows > 0) {
+
+                SUCCESS_MSG("DATA HAS BEEN INSERTED");
+            } else {
+
+                ERROR_MSG("DATA HAS NOT BEEN INSERTED  {$insert}");
+            }
+        } else {
+            ERROR_MSG("ERROR IN EXECUTION  {$insert}");
+
+        }
+
+
+        refresh_url(2, DASHBOARD);
+
+
+
+
+
     }
 }
 
