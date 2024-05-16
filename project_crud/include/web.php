@@ -12,10 +12,12 @@ define("domain1",SERVER.FOLDER);
 
 
 define("DASHBOARD",domain1."/dashboard.php");
+define("UPDATE_FORM",domain1."/update.php");
 
 
 // dashboard file route 
 
 define("INSERT_FORM",domain1."/action/form_action.php");
+define("UPDATE_FORM_SUBMIT",domain1."/action/form_action.php");
 
 ?>

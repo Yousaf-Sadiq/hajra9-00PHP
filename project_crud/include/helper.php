@@ -38,4 +38,9 @@ function refresh_url(int $sec, string $url)
     // header("Refresh:2,url='home.php'");
 }
 
+function redirect_url(string $url)
+{
+    header("Location:{$url}");
+}
+
 ?>
