@@ -12,16 +12,57 @@ require_once dirname(__DIR__) . "/layout/user/header.php";
 
 
 <?php
+if (isset($_POST["uploadFile"]) && !empty($_POST["uploadFile"])) {
 
+    $file = $_FILES["profile"];
+
+    $file_name = $file["name"];
+
+    $tmp_name = $file["tmp_name"];
+
+    $ext = ["jpg", "png", "jpeg"];
+
+
+    // pathinfo($file_name, PATHINFO_EXTENSION)
+
+    $fileExt = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+
+    if (!in_array($fileExt, $ext)) {
+
+        $string= strtoupper(implode(" , " , $ext));
+        
+        echo "{$string} ONLY ALLOWED";
+
+        die;
+    }
+
+    // relative path C:/xampp/htdoc/900_HAjra_php/project_crud/action/form_action.php
+// absolute path http://localhost/900_HAjra_php/project_crud/action/form_action.php
+
+
+    $destination = domain2 . "/assets/images/" . $file_name;
+
+
+    if (move_uploaded_file($tmp_name, $destination)) {
+
+
+        echo "FILE UPLOAD";
+    } else {
+        echo "FILE NOT UPLOAD";
+    }
+    pre($file);
+
+
+}
 
 if (isset($_POST["update"]) && !empty($_POST["update"])) {
 
     $email = Filter_data($_POST["Email"]);
     $password = Filter_data($_POST["pswd"]);
     $user_name = Filter_data($_POST["user_name"]);
-    
-    
-    
+
+
+
     $user_id = Filter_data(base64_decode($_POST["_token"]));
 
 
@@ -63,7 +104,7 @@ if (isset($_POST["update"]) && !empty($_POST["update"])) {
 
     // /==============check email==============
 
-    $sql_check = "SELECT * FROM `users` WHERE `email`='{$email}'";
+    $sql_check = "SELECT * FROM `users` WHERE `email`='{$email}' AND `user_id`<>'{$user_id}' ";
 
     $check_email = $conn->query($sql_check);
     if ($check_email->num_rows > 0) {
@@ -90,23 +131,28 @@ if (isset($_POST["update"]) && !empty($_POST["update"])) {
 
         $encrypt = base64_encode($password);
 
-        $insert = "INSERT INTO `users` ( `email`, `password`, `ptoken`)
-          VALUES ('{$email}','{$hash}','{$encrypt}')";
+        $update = "UPDATE `users` SET 
+        `user_name`='{$user_name}',
+        `email`='{$email}',
+        `password`='{$hash}',
+        `ptoken`='{$encrypt}'
 
-        $exe = $conn->query($insert);
+        WHERE `user_id`='{$user_id}' ";
+
+        $exe = $conn->query($update);
 
 
         if ($exe) {
 
             if ($conn->affected_rows > 0) {
 
-                SUCCESS_MSG("DATA HAS BEEN INSERTED");
+                SUCCESS_MSG("DATA HAS BEEN UPDATED");
             } else {
 
-                ERROR_MSG("DATA HAS NOT BEEN INSERTED  {$insert}");
+                ERROR_MSG("DATA HAS NOT BEEN UPDATED  {$update}");
             }
         } else {
-            ERROR_MSG("ERROR IN EXECUTION  {$insert}");
+            ERROR_MSG("ERROR IN EXECUTION  {$update}");
 
         }
 

@@ -3,12 +3,15 @@
 <?php 
 
 // http://localhost/900_HAjra_%20php/project_crud/
-define("SERVER","http://localhost/");
+define("SERVER","http://localhost");
+define("SERVER2",$_SERVER["DOCUMENT_ROOT"]);
 
-define("FOLDER","900_HAjra_php/project_crud");
+define("FOLDER","/900_HAjra_php/project_crud");
 
-
+// absolute path
 define("domain1",SERVER.FOLDER);
+//  relative path 
+define("domain2",SERVER2.FOLDER);
 
 
 define("DASHBOARD",domain1."/dashboard.php");

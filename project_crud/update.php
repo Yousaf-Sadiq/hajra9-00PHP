@@ -8,8 +8,8 @@ require_once dirname(__FILE__) . "/layout/user/header.php";
 ?>
 <?php
 // http://localhost/900_HAjra_php/project_crud/update.php?abc=3
-if (isset($_GET["abc"]) && !empty($_GET["abc"])) {
-    $userId = $_GET["abc"];
+if (isset($_GET["token"]) && !empty($_GET["token"])) {
+    $userId =base64_decode($_GET["token"]);
 } else {
     redirect_url(DASHBOARD);
 }

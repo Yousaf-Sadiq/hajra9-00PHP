@@ -24,6 +24,19 @@ require_once dirname(__FILE__) . "/layout/user/header.php";
 
 
 
+<form class="p-5 m-5 " enctype="multipart/form-data" action="<?php echo INSERT_FORM ?>" style="background-color: black;" method="POST">
+
+    <div class="mb-3">
+        <label for="" class="form-label">IMAGE</label>
+        <input type="file" class="form-control" name="profile" id="" placeholder="" aria-describedby="fileHelpId" />
+        <div id="fileHelpId" class="form-text">Help text</div>
+    </div>
+
+    <input type="submit" value="UPLOAD" name="uploadFile" class="btn btn-primary">
+</form>
+
+
+
 
 <div class="table-responsive">
 
@@ -63,7 +76,8 @@ require_once dirname(__FILE__) . "/layout/user/header.php";
                         <div class="card">
                             <div class="card-body d-flex justify-content-center gap-3">
 
-                                <a href="<?php echo UPDATE_FORM ?>?abc=<?php echo $row["user_id"]  ?>" class="btn btn-info">EDIT</a>
+                                <a href="<?php echo UPDATE_FORM ?>?token=<?php echo base64_encode($row["user_id"]) ?>"
+                                    class="btn btn-info">EDIT</a>
 
                                 <button type="button" class="btn btn-danger">DELETE</button>
 
