@@ -15,6 +15,7 @@ define("domain2",SERVER2.FOLDER);
 
 
 define("DASHBOARD",domain1."/dashboard.php");
+
 define("UPDATE_FORM",domain1."/update.php");
 
 

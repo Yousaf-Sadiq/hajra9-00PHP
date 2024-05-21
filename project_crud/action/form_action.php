@@ -12,48 +12,73 @@ require_once dirname(__DIR__) . "/layout/user/header.php";
 
 
 <?php
+
 if (isset($_POST["uploadFile"]) && !empty($_POST["uploadFile"])) {
 
-    $file = $_FILES["profile"];
+    $extention = ["jpg", "png", "jpeg"];
 
-    $file_name = $file["name"];
-
-    $tmp_name = $file["tmp_name"];
-
-    $ext = ["jpg", "png", "jpeg"];
+    $file = File_upload("profile", $extention, "/assets/images/");
 
 
-    // pathinfo($file_name, PATHINFO_EXTENSION)
+    if ($file == 1) {
+        $string = strtoupper(implode(" , ", $extention));
 
-    $fileExt = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
-
-    if (!in_array($fileExt, $ext)) {
-
-        $string= strtoupper(implode(" , " , $ext));
-        
-        echo "{$string} ONLY ALLOWED";
-
-        die;
+        echo "{$string}  ONLY ALLOWED";
     }
+    else{
+        pre($file);
+    }
+
+    if ($file == false) {
+        echo "UPLOADING ERROR";
+    }
+
 
     // relative path C:/xampp/htdoc/900_HAjra_php/project_crud/action/form_action.php
 // absolute path http://localhost/900_HAjra_php/project_crud/action/form_action.php
 
 
-    $destination = domain2 . "/assets/images/" . $file_name;
-
-
-    if (move_uploaded_file($tmp_name, $destination)) {
-
-
-        echo "FILE UPLOAD";
-    } else {
-        echo "FILE NOT UPLOAD";
-    }
-    pre($file);
+    
 
 
 }
+
+
+// case 1
+
+/**
+ *  file upload but data remain same 
+ * 
+ *  sub-case 1 
+ * 
+ *    if we have old file or not  then we should have to delete that prv file 
+ * the upload new file 
+ * 
+ * 
+ * 
+ */
+
+
+//  case 2
+
+/**
+ * file is not uploading but data changed  
+ * 
+ */
+
+
+//  case 3
+
+/**
+ * file and data both are changed
+ * sub-case 3 
+ * 
+ *    if we have old file or not  then we should have to delete that prv file 
+ * the upload new file 
+ */
+
+
+// http://localhost/900_HAjra_php/project_crud/update.php?token=Mw==
 
 if (isset($_POST["update"]) && !empty($_POST["update"])) {
 
@@ -136,7 +161,6 @@ if (isset($_POST["update"]) && !empty($_POST["update"])) {
         `email`='{$email}',
         `password`='{$hash}',
         `ptoken`='{$encrypt}'
-
         WHERE `user_id`='{$user_id}' ";
 
         $exe = $conn->query($update);
