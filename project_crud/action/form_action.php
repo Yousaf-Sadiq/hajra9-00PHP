@@ -17,16 +17,29 @@ if (isset($_POST["uploadFile"]) && !empty($_POST["uploadFile"])) {
 
     $extention = ["jpg", "png", "jpeg"];
 
+
+    //                   input     ext         where to upload 
     $file = File_upload("profile", $extention, "/assets/images/");
+
+
+
 
 
     if ($file == 1) {
         $string = strtoupper(implode(" , ", $extention));
 
         echo "{$string}  ONLY ALLOWED";
-    }
-    else{
-        pre($file);
+    } else {
+        $encode = json_encode($file);
+
+        // json_decode($encode,true);
+
+        // foreign keys
+        /**
+         * one to one 
+         * one to many 
+         * many to many 
+         */
     }
 
     if ($file == false) {
@@ -38,7 +51,7 @@ if (isset($_POST["uploadFile"]) && !empty($_POST["uploadFile"])) {
 // absolute path http://localhost/900_HAjra_php/project_crud/action/form_action.php
 
 
-    
+
 
 
 }
@@ -86,6 +99,10 @@ if (isset($_POST["update"]) && !empty($_POST["update"])) {
     $password = Filter_data($_POST["pswd"]);
     $user_name = Filter_data($_POST["user_name"]);
 
+    $inputFile = "profile";
+
+    $file = $_FILES[$inputFile];
+    $extention = ["jpg", "png", "jpeg"];
 
 
     $user_id = Filter_data(base64_decode($_POST["_token"]));
@@ -97,6 +114,73 @@ if (isset($_POST["update"]) && !empty($_POST["update"])) {
     ];
 
 
+
+
+
+
+    // ========================================================================
+
+
+
+
+    if (isset($file["name"]) && !empty($file["name"])) {
+
+        // ===================if old file exist then =================================
+        $checkAddress = "SELECT * FROM `user_address` WHERE `user_id`='{$user_id}'";
+
+        $check_exe = $conn->query($checkAddress);
+
+
+        if ($check_exe->num_rows > 0) {
+
+            $address_fetch = $check_exe->fetch_assoc();
+
+            if (isset($address_fetch["image"])) {
+
+                $oldImage = json_decode($address_fetch["image"], true);
+                
+                $relative = $oldImage["relative_path"];
+
+                if (file_exists($relative)) {
+
+                    unlink($relative);
+                }
+            }
+
+        }
+        // ====================================
+
+        // new file upload ------------------------------------------------------------------------
+
+        $files = File_upload($inputFile, $extention, "/assets/images/");
+        // =============-------file error checking----------------------------------------------------------
+        if ($files == 1) {
+            $status["error"]++;
+            $string = strtoupper(implode(" , ", $extention));
+
+            array_push($status["msg"], "{$string} ONLY ALLOWED");
+        }
+
+        if ($files == false) {
+            $status["error"]++;
+
+
+            array_push($status["msg"], "UPLOADING ERROR");
+        }
+        // ============================----------------------------------------------------
+
+
+
+    }
+
+
+
+
+
+
+
+
+    // ========================================================================
     if (!isset($email) || empty($email)) {
         $status["error"]++;
 
@@ -118,6 +202,8 @@ if (isset($_POST["update"]) && !empty($_POST["update"])) {
 
         array_push($status["msg"], "PASSWORD IS REQUIRED");
     }
+
+
 
 
     if (!isset($user_name) || empty($user_name)) {
@@ -151,6 +237,39 @@ if (isset($_POST["update"]) && !empty($_POST["update"])) {
         refresh_url(2, DASHBOARD);
 
     } else {
+
+
+        if (is_array($files)) {
+            $files = json_encode($files);
+        }
+
+        $checkAddress = "SELECT * FROM `user_address` WHERE `user_id`='{$user_id}'";
+
+        $check_exe = $conn->query($checkAddress);
+
+
+        if ($check_exe->num_rows > 0) {
+            // update query 
+            $updateAddress = "UPDATE `user_address` SET
+             
+             `image`='{$files}'
+             
+              WHERE `user_id`='{$user_id}'";
+            $exe = $conn->query($updateAddress);
+        } else {
+
+            //   insert 
+            $insertAddress = "INSERT INTO `user_address`( `image`, `user_id`) 
+            VALUES ('{$files}','{$user_id}')";
+
+            $exe = $conn->query($insertAddress);
+        }
+
+
+
+
+
+
 
         $hash = password_hash($password, PASSWORD_BCRYPT);
 

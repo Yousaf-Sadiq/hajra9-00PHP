@@ -9,7 +9,7 @@ require_once dirname(__FILE__) . "/layout/user/header.php";
 <?php
 // http://localhost/900_HAjra_php/project_crud/update.php?abc=3
 if (isset($_GET["token"]) && !empty($_GET["token"])) {
-    $userId =base64_decode($_GET["token"]);
+    $userId = base64_decode($_GET["token"]);
 } else {
     redirect_url(DASHBOARD);
 }
@@ -20,8 +20,8 @@ $sql = "SELECT * FROM `users` WHERE `user_id`='{$userId}'";
 $exe_fetch = $conn->query($sql);
 
 if ($exe_fetch->num_rows > 0) {
-   
-   
+
+
     $update = $exe_fetch->fetch_assoc();
 
 } else {
@@ -31,9 +31,18 @@ if ($exe_fetch->num_rows > 0) {
 ?>
 
 <h1>UPDATE FORM</h1>
-<form class="p-5 m-5 " action="<?php echo UPDATE_FORM_SUBMIT ?>" style="background-color: black;" method="POST">
+<form class="p-5 m-5 " enctype="multipart/form-data" action="<?php echo UPDATE_FORM_SUBMIT ?>" style="background-color: black;" method="POST">
 
     <input type="hidden" name="_token" value="<?php echo base64_encode($userId) ?>">
+
+
+    <div class="mb-3">
+        <label for="" class="form-label">IMAGE</label>
+        <input type="file" class="form-control" name="profile" id="" placeholder="" aria-describedby="fileHelpId" />
+        <div id="fileHelpId" class="form-text">Help text</div>
+    </div>
+
+
 
     <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">USER NAME</label>

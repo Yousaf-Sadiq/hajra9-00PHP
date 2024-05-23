@@ -71,15 +71,13 @@ function File_upload(string $input, array $ext, string $destination)
 
 
     if (!in_array($file_ext, $extention)) {
-
-
         return 1;
     }
 
 
-    $relative_path = domain2 . $destination . $file_name;
+    $relative_path = domain2 . $destination . $file_name; // saving or removing 
 
-    $absolute_path = domain1 . $destination . $file_name;
+    $absolute_path = domain1 . $destination . $file_name; // fetching 
 
     if (move_uploaded_file($tmp_name, $relative_path)) {
 
@@ -89,7 +87,7 @@ function File_upload(string $input, array $ext, string $destination)
         ];
 
         return $status;
-        
+
     } else {
         return false;
     }
