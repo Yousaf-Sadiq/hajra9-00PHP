@@ -79,6 +79,8 @@ function File_upload(string $input, array $ext, string $destination)
 
     $absolute_path = domain1 . $destination . $file_name; // fetching 
 
+
+    
     if (move_uploaded_file($tmp_name, $relative_path)) {
 
         $status = [

@@ -2,6 +2,7 @@
 require_once dirname(__DIR__) . "/layout/user/header.php";
 
 /**
+ * crud 
  * 1. $_POST
  * 2. $_GET
  * 3. $_FILES
@@ -30,6 +31,7 @@ if (isset($_POST["uploadFile"]) && !empty($_POST["uploadFile"])) {
 
         echo "{$string}  ONLY ALLOWED";
     } else {
+
         $encode = json_encode($file);
 
         // json_decode($encode,true);
@@ -102,6 +104,9 @@ if (isset($_POST["update"]) && !empty($_POST["update"])) {
     $inputFile = "profile";
 
     $file = $_FILES[$inputFile];
+
+
+
     $extention = ["jpg", "png", "jpeg"];
 
 
@@ -114,16 +119,11 @@ if (isset($_POST["update"]) && !empty($_POST["update"])) {
     ];
 
 
-
-
-
-
     // ========================================================================
 
-
-
-
     if (isset($file["name"]) && !empty($file["name"])) {
+
+
 
         // ===================if old file exist then =================================
         $checkAddress = "SELECT * FROM `user_address` WHERE `user_id`='{$user_id}'";
@@ -137,14 +137,18 @@ if (isset($_POST["update"]) && !empty($_POST["update"])) {
 
             if (isset($address_fetch["image"])) {
 
-                $oldImage = json_decode($address_fetch["image"], true);
-                
-                $relative = $oldImage["relative_path"];
+                $oldImage = json_decode($address_fetch["image"], true); // json to array
 
-                if (file_exists($relative)) {
+                if (isset($oldImage["relative_path"])) {
+                    
+                    $relative = $oldImage["relative_path"];
 
-                    unlink($relative);
+                    if (file_exists($relative)) {
+
+                        unlink($relative);
+                    }
                 }
+
             }
 
         }
@@ -153,6 +157,7 @@ if (isset($_POST["update"]) && !empty($_POST["update"])) {
         // new file upload ------------------------------------------------------------------------
 
         $files = File_upload($inputFile, $extention, "/assets/images/");
+
         // =============-------file error checking----------------------------------------------------------
         if ($files == 1) {
             $status["error"]++;
@@ -170,6 +175,32 @@ if (isset($_POST["update"]) && !empty($_POST["update"])) {
         // ============================----------------------------------------------------
 
 
+
+
+    }
+    // =======case 2 and case 3 ==============================================================================================
+    // if file is not uploading then
+    else {
+
+        $checkAddress = "SELECT * FROM `user_address` WHERE `user_id`='{$user_id}'";
+
+        $check_exe = $conn->query($checkAddress);
+
+        if ($check_exe->num_rows > 0) {
+
+            $exe_fetch = $check_exe->fetch_assoc();
+
+            if (isset($exe_fetch["image"])) {
+
+                $files = json_decode($exe_fetch["image"], true); // json to array
+            } else {
+                $files = null;
+            }
+        }
+        // if recored in address table is not exist then 
+        else {
+            $files = null;
+        }
 
     }
 
@@ -236,12 +267,19 @@ if (isset($_POST["update"]) && !empty($_POST["update"])) {
 
         refresh_url(2, DASHBOARD);
 
-    } else {
+    }
+    // -=========================DATA INSERTION AND UPDATION===========================
+    // ==after checking all errors===================================================
+    else {
 
-
+        //  array image or null
         if (is_array($files)) {
-            $files = json_encode($files);
+            $files = json_encode($files); // array to json
         }
+        //  goal image store as a json
+
+
+
 
         $checkAddress = "SELECT * FROM `user_address` WHERE `user_id`='{$user_id}'";
 
@@ -255,6 +293,8 @@ if (isset($_POST["update"]) && !empty($_POST["update"])) {
              `image`='{$files}'
              
               WHERE `user_id`='{$user_id}'";
+
+
             $exe = $conn->query($updateAddress);
         } else {
 
