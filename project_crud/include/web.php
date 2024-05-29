@@ -10,12 +10,15 @@ define("SERVER2",$_SERVER["DOCUMENT_ROOT"]); //E:\xampp2\htdocs
 
 
 
+
 define("FOLDER","/900_HAjra_php/project_crud");
 
 // absolute path
 define("domain1",SERVER.FOLDER);
 //  relative path 
 define("domain2",SERVER2.FOLDER);
+
+define("Default_image",domain1."/assets/images/default.jpg");
 
 
 define("DASHBOARD",domain1."/dashboard.php");

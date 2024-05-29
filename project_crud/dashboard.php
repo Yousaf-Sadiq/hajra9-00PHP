@@ -24,7 +24,8 @@ require_once dirname(__FILE__) . "/layout/user/header.php";
 
 
 
-<form class="p-5 m-5 " enctype="multipart/form-data" action="<?php echo INSERT_FORM ?>" style="background-color: black;" method="POST">
+<form class="p-5 m-5 " enctype="multipart/form-data" action="<?php echo INSERT_FORM ?>" style="background-color: black;"
+    method="POST">
 
     <div class="mb-3">
         <label for="" class="form-label">IMAGE</label>
@@ -55,23 +56,52 @@ require_once dirname(__FILE__) . "/layout/user/header.php";
         <table class="table table-bordered table-hover table-dark">
             <tr>
                 <th>#</th>
+                <th>IMAGE</th>
                 <th>USER NAME</th>
                 <th>EMAIL</th>
                 <th>ACTION</th>
             </tr>
 
             <?php
-
+            $count = 1;
             while ($row = $exe_fetch->fetch_assoc()) {
-                # code...
-        
+
+
+                $query_address = "SELECT * FROM `user_address` WHERE  `user_id`='{$row["user_id"]}'";
+
+                $exe_address_fetch = $conn->query($query_address);
+
+
+                if ($exe_address_fetch->num_rows > 0) {
+                  # code...
+                    $address_row = $exe_address_fetch->fetch_assoc();
+                //   echo  $cleanedJsonData = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $address_row['image']);
+                    // $address_row["image"];
+                    // echo $address_row["image"];
+
+                    $images = json_decode($address_row["image"],true);
+
+
+                }
+                else {
+                    $images= [
+                        "absolute_path"=>Default_image
+                    ];
+                }
                 ?>
 
                 <tr>
+
                     <td><?php echo $row["user_id"] ?></td>
+                    <td>
+                  
+                        <img width="200" height="200" src="<?php echo $images["absolute_path"] ?>" alt="">
+                       
+                    </td>
                     <td><?php echo $row["user_name"] ?></td>
                     <td><?php echo $row["email"] ?></td>
                     <td>
+
 
                         <div class="card">
                             <div class="card-body d-flex justify-content-center gap-3">
@@ -87,7 +117,9 @@ require_once dirname(__FILE__) . "/layout/user/header.php";
                     </td>
                 </tr>
 
-            <?php } ?>
+            <?php
+       
+        } ?>
 
         </table>
 

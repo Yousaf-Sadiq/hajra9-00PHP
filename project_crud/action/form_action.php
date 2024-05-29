@@ -119,6 +119,9 @@ if (isset($_POST["update"]) && !empty($_POST["update"])) {
     ];
 
 
+    // $abc = $status;
+
+    // $abc["error"];
     // ========================================================================
 
     if (isset($file["name"]) && !empty($file["name"])) {
@@ -140,7 +143,7 @@ if (isset($_POST["update"]) && !empty($_POST["update"])) {
                 $oldImage = json_decode($address_fetch["image"], true); // json to array
 
                 if (isset($oldImage["relative_path"])) {
-                    
+
                     $relative = $oldImage["relative_path"];
 
                     if (file_exists($relative)) {

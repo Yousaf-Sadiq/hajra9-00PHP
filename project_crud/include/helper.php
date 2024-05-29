@@ -43,7 +43,7 @@ function redirect_url(string $url)
     header("Location:{$url}");
 }
 
-function pre(array $a)
+function pre( $a)
 {
     echo "<pre>";
     print_r($a);
