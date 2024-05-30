@@ -43,14 +43,22 @@ if ($exe_address_fetch->num_rows > 0) {
     // $address_row["image"];
     // echo $address_row["image"];
 
-    $images = json_decode($address_row["image"], true);
+    if (isset($address_row["image"])) {
+        # code...
+        $images = json_decode($address_row["image"], true);
 
+    } else {
+        $images = [
+            "absolute_path" => Default_image
+        ];
+    }
 
 } else {
-$images= [
-    "absolute_path"=>Default_image
-];
+    $images = [
+        "absolute_path" => Default_image
+    ];
 }
+
 ?>
 
 

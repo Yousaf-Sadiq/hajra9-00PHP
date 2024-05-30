@@ -290,6 +290,10 @@ if (isset($_POST["update"]) && !empty($_POST["update"])) {
 
 
         if ($check_exe->num_rows > 0) {
+
+            $addres_id = $check_exe->fetch_assoc();
+
+            $address_id = $addres_id["address_id"];
             // update query 
             $updateAddress = "UPDATE `user_address` SET
              
@@ -299,13 +303,18 @@ if (isset($_POST["update"]) && !empty($_POST["update"])) {
 
 
             $exe = $conn->query($updateAddress);
+
+
         } else {
 
             //   insert 
             $insertAddress = "INSERT INTO `user_address`( `image`, `user_id`) 
             VALUES ('{$files}','{$user_id}')";
 
+
             $exe = $conn->query($insertAddress);
+            
+            $address_id = $conn->insert_id;
         }
 
 
@@ -322,7 +331,8 @@ if (isset($_POST["update"]) && !empty($_POST["update"])) {
         `user_name`='{$user_name}',
         `email`='{$email}',
         `password`='{$hash}',
-        `ptoken`='{$encrypt}'
+        `ptoken`='{$encrypt}',
+        `address_id`={$address_id}
         WHERE `user_id`='{$user_id}' ";
 
         $exe = $conn->query($update);
