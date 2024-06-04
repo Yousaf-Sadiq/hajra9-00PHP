@@ -31,4 +31,6 @@ define("UPDATE_FORM",domain1."/update.php");
 define("INSERT_FORM",domain1."/action/form_action.php");
 define("UPDATE_FORM_SUBMIT",domain1."/action/form_action.php");
 
+define("DELETE_FORM",domain1."/action/form_action.php");
+
 ?>

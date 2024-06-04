@@ -148,6 +148,9 @@ require_once dirname(__FILE__) . "/layout/user/header.php";
 
 
     <!-- Modal -->
+
+
+    <!-- Modal -->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -157,23 +160,19 @@ require_once dirname(__FILE__) . "/layout/user/header.php";
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <h1>ARE YOU SURE <span class="text-danger">!</span></h1>
+                    <h3> ARE YOU SURE <span class="text-danger">!</span></h3>
                 </div>
                 <div class="modal-footer">
                     <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
 
-                    <form action="" method="post">
-                        <input type="hidden" id="delete_token" name="delete_token">
-
-                        <input type="submit" value="YES" name="delete" class="btn btn-primary">
+                    <form action="<?php echo DELETE_FORM; ?>" method="post">
+                        <input type="hidden" name="_token" id="user_id">
+                        <input type="submit" name="delete" value="DELETE" class="btn btn-primary">
                     </form>
-
-
                 </div>
             </div>
         </div>
     </div>
-
 </div>
 
 <?php
@@ -185,16 +184,24 @@ require_once dirname(__FILE__) . "/layout/user/footer.php";
 
 <script>
     function OnDELETE(id) {
+        // console.log(id)
 
-        const Mymodal = document.querySelector("#staticBackdrop");
+        let modal = document.querySelector("#staticBackdrop");
+        // modal.style.backgroundColor="red";
 
-        const bootstrapModal = new bootstrap.Modal(Mymodal);
+        // backgroundColor
+        // 
+        let bootstrapModal = new bootstrap.Modal(modal)
 
-        bootstrapModal.show(Mymodal);
+        bootstrapModal.show(modal);
+        // ===================================
 
-        let user_id = document.querySelector("#delete_token");
+        let user_id = document.getElementById("user_id");
 
-        user_id.value = id;
+        // user_id.value = id;
+
+        user_id.setAttribute("value",id);
+
 
     }
 </script>

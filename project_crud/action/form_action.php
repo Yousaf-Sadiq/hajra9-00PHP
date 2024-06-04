@@ -313,7 +313,7 @@ if (isset($_POST["update"]) && !empty($_POST["update"])) {
 
 
             $exe = $conn->query($insertAddress);
-            
+
             $address_id = $conn->insert_id;
         }
 
@@ -458,6 +458,82 @@ if (isset($_POST["insert"]) && !empty($_POST["insert"])) {
 
     }
 }
+
+
+// login and signup 
+// project 
+
+if (isset($_POST["delete"]) && !empty($_POST["delete"])) {
+
+    $status = [
+        "error" => 0,
+        "msg" => []
+    ];
+
+    $user_id = Filter_data(base64_decode($_POST["_token"]));
+
+    $checkData = "SELECT * FROM `users` WHERE `user_id`='{$user_id}'";
+
+    $exe = $conn->query($checkData);
+
+    if ($exe->num_rows > 0) {
+
+
+        $checkAddress = "SELECT * FROM `user_address` WHERE `user_id`='{$user_id}'";
+        $exe_ad = $conn->query($checkAddress);
+
+        if ($exe_ad->num_rows > 0) {
+
+            $fetchIMage = $exe_ad->fetch_assoc();
+
+            // pre($fetchIMage);
+            if (isset($fetchIMage["image"])) {
+
+                $oldImage = json_decode($fetchIMage["image"], true);
+                // echo "ok image if";
+                if (file_exists($oldImage["relative_path"])) {
+                    unlink($oldImage["relative_path"]);
+                }
+
+            }
+
+            $address_delete = "DELETE FROM `user_address` WHERE `user_id`='{$user_id}'";
+            $delete_addres = $conn->query($address_delete);
+
+
+
+
+        }
+
+
+
+        $user_delete = "DELETE FROM `users` WHERE `user_id`='{$user_id}'";
+        $user_addres = $conn->query($user_delete);
+
+        if ($user_addres) {
+            if ($conn->affected_rows > 0) {
+                SUCCESS_MSG("DATA HAS BEEN DELETED");
+            }
+        }
+
+
+        refresh_url(2,DASHBOARD);
+    } else {
+        // $status["error"]++;
+
+        // array_push($status["msg"], "DATA IS NOT EXISTED");
+
+        ERROR_MSG("DATA IS NOT EXISTED");
+
+        refresh_url(2, DASHBOARD);
+    }
+
+
+}
+
+
+
+
 
 
 ?>
