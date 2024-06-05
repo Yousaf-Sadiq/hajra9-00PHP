@@ -1,6 +1,15 @@
 <?php
 
 require_once dirname(__FILE__) . "/layout/user/header.php";
+    
+// crud  complete 
+// login and signup 
+
+if (!isset($_SESSION["user_id"]) || empty($_SESSION["user_id"])) {
+    redirect_url(LOGIN);
+}
+
+$S_user_id= $_SESSION["user_id"];
 
 
 ?>
@@ -43,7 +52,7 @@ require_once dirname(__FILE__) . "/layout/user/header.php";
 
     <?php
 
-    $sql = "SELECT * FROM `users`";
+    $sql = "SELECT * FROM `users` WHERE `user_id`='{$S_user_id}'";
 
     $exe_fetch = $conn->query($sql);
 

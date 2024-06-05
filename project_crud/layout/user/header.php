@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once dirname(__DIR__) . "/../include/connection.php";
 require_once dirname(__DIR__) . "/../include/helper.php";
 require_once dirname(__DIR__) . "/../include/web.php";

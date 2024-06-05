@@ -33,4 +33,10 @@ define("UPDATE_FORM_SUBMIT",domain1."/action/form_action.php");
 
 define("DELETE_FORM",domain1."/action/form_action.php");
 
+define("SIGNUP_SUBMIT",domain1."/action/auth/signup.php");
+define("SIGNUP",domain1."/signup.php");
+
+define("LOGIN",domain1."/login.php");
+define("LOGIN_SUBMIT",domain1."/action/auth/login.php");
+define("LOGOUT",domain1."/logout.php");
 ?>

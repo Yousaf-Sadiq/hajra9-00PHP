@@ -3,6 +3,10 @@
 require_once dirname(__FILE__) . "/layout/user/header.php";
 
 
+if (!isset($_SESSION["user_id"]) || empty($_SESSION["user_id"])) {
+    redirect_url(LOGIN);
+}
+
 
 
 ?>
