@@ -19,6 +19,16 @@ declare(strict_types=1);
 4. Convert temperatures from Celsius to Fahrenheit and Fahrenheit to Celsius.
  */
 
+// $insert="";
+
+// if ($insert) {
+    
+// } else {
+//     $insert = "insert quert ";
+
+// }
+
+
 
 class areaOfRectangle
 {
@@ -48,7 +58,7 @@ class areaOfRectangle
     {
         $this->area = $this->length * $this->width;
 
-        $abc =[
+        $abc = [
             $this->length,
             $this->width
         ];
@@ -88,7 +98,7 @@ $abc = new areaOfRectangle;
 
 $abc->SetLength(5);
 $abc->SetWidth(8);
-$q=$abc->Calculate();
+$q = $abc->Calculate();
 echo "AREA OF RECTANGLE: {$q[0]}";
 
 // $obj = new A();
