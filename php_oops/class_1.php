@@ -37,11 +37,7 @@ class areaOfRectangle
     private $area;
 
 
-    public function SetLength(float|int $l = 0)
-    {
-        $this->length = $l;
-    }
-
+  
     public function SetL_W(float|int $l = 0, float|int $w = 0)
     {
         $this->length = $l;
@@ -51,6 +47,10 @@ class areaOfRectangle
     public function SetWidth(float|int $w = 0)
     {
         $this->width = $w;
+    }
+    public function SetLength(float|int $l = 0)
+    {
+        $this->length = $l;
     }
 
 
