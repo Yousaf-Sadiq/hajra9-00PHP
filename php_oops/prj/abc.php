@@ -1,4 +1,5 @@
 <?php  
+require_once dirname(__FILE__)."/app/database.php";
 
 require_once dirname(__FILE__)."/layouts/admin/header.php";
 
@@ -16,7 +17,11 @@ $obj = new DB;
 ?>
   
 
-  <h1>WELCOME ADMIN</h1>
+
+
+
+
+  
 
   <?php 
     require_once dirname(__FILE__)."/layouts/admin/footer.php";
